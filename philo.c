@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/26 16:22:27 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/27 15:33:48 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,56 +15,54 @@
 pthread_mutex_t mute;
 int a = 0;
 
-t_status	*g_status(void)
+t_status	*g_thread(void)
 {
-	static t_status	status = {0};
+	static t_status	infos = {0};
 
-	return (&status);
+	return (&infos);
 }
-void *printfker(t_philos *philos)
+
+void printfker(t_philos *philos)
 {
-	pthread_mutex_lock(&mute);
+	pthread_mutex_lock(&philos->fork);
 	printf("philo%d %s\n",philos->seat,"fker");
-	pthread_mutex_unlock(&mute);
-    return NULL;
+	pthread_mutex_unlock(&philos->fork);
 }
 
-void *printnaam(t_philos *philos)
+void printnaam(t_philos *philos)
 {
-	pthread_mutex_lock(&mute);
+	pthread_mutex_init(&philos->fork,0);
+	pthread_mutex_lock(&philos->fork);
 	printf("philo%d %s\n",philos->seat,"n3es");
-	pthread_mutex_unlock(&mute);
-	usleep(10000000);
-    return NULL;
+	pthread_mutex_unlock(&philos->fork);
+	usleep(100);
 }
 
-void *printkol(t_philos *philos)
+void printkol(t_philos *philos)
 {
-	pthread_mutex_lock(&mute);
+	pthread_mutex_lock(&philos->fork);
 	printf("philo%d %s\n",philos->seat,"kol");
-	pthread_mutex_unlock(&mute);
-	usleep(10000000);
-    return NULL;
+	pthread_mutex_unlock(&philos->fork);
+	usleep(100);
 }
+
 void *routine (void *something)
 {
-	printnaam();
-    printkol();
-    printfker();
+	printnaam(something);
+    printkol(something);
+    printfker(something);
 	return (NULL);
 }
 void setup_philos (int philo)
 {
 	int i = 0;
-	g_status()->philos = malloc(sizeof(t_philos) * philo);
-	g_status()->original = g_status()->philos;
+	g_thread()->philos = malloc(sizeof(t_philos) * philo);
+	g_thread()->original = g_thread()->philos;
 	while(i < philo)
-    {
-		
-		pthread_create(&g_status()->philos->phi_id,NULL,&routine, &philos);
-		philos->seat = i;
+    {		
+		pthread_create(&g_thread()->philos[i].phi_id,NULL,&routine, &g_thread()->philos[i]);
+		g_thread()->philos->seat = i;
         i++;
-		g_status->philos++;
     }
 }
 int main(int ac, char **av)
@@ -76,12 +74,12 @@ int main(int ac, char **av)
     // int time_die = atoi(av[2]);
     // int eating = atoi(av[3]);
     // int sleeping = atoi(av[4]);
-	pthread_mutex_init(&mute,0);
     i = 0;
+	setup_philos(philos);
     while(i < philos)
     {
-        pthread_join(g_status()->original->phi_id,NULL);
-        i++;
+        pthread_join(g_thread()->original[i].phi_id,NULL);
+		i++;
     }
     return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:24 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/26 16:21:42 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/27 20:31:34 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <stdlib.h>
-
+#include <sys/time.h>
 typedef struct s_philos
 {
     pthread_t phi_id;
