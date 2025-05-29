@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/28 16:58:36 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:54:20 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,13 @@ t_status	*g_thread(void)
 
 void printfker(t_philos *philos)
 {
-	pthread_mutex_lock(&philos->fork);
 	printf("philo%d %s\n",philos->seat,"fker");
-	pthread_mutex_unlock(&philos->fork);
 }
 
 void printnaam(t_philos *philos)
 {
 	pthread_mutex_init(&philos->fork,0);
-	pthread_mutex_lock(&philos->fork);
 	printf("philo%d %s\n",philos->seat,"n3es");
-	pthread_mutex_unlock(&philos->fork);
 	usleep(100);
 }
 
