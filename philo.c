@@ -6,7 +6,7 @@
 /*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/29 16:54:20 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/29 17:28:01 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,25 @@ void *routine (void *something)
     printfker(something);
 	return (NULL);
 }
-void setup_philos (int philo)
+
+void *garder (void *philo)
 {
-	int i = 0;
-	g_thread()->philos = malloc(sizeof(t_philos) * philo);
+    int i = 0;
+	g_thread()->philos = malloc(sizeof(t_philos) * (*(int *)philo));
 	g_thread()->original = g_thread()->philos;
-	while(i < philo)
-    {		
-		pthread_create(&g_thread()->philos[i].phi_id,NULL,&routine, &g_thread()->philos[i]);
-		g_thread()->philos->seat = i;
+    while(i < (*(int *)philo))
+    {
+		pthread_create(&g_thread()->philos[i].phi_id, NULL, &routine, &philo);
+		g_thread()->philos[i].seat = i;
         i++;
     }
+    return (NULL);
+}
+
+void setup_philos (int philo)
+{
+    pthread_t mod;
+	pthread_create(&mod, NULL, &garder, &philo);
 }
 int main(int ac, char **av)
 {
