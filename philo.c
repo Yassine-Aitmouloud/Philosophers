@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/13 02:11:04 by aniki            ###   ########.fr       */
+/*   Updated: 2025/06/16 20:05:09 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	print_action(t_philos *philo, char *msg)
 {
     long	timestamp;
 
-    pthread_mutex_lock(&g_thread()->mute);
+    pthread_mutex_lock(&g_thread()->printing);
     timestamp = get_time_ms() - g_thread()->start;
     printf("%ld %d %s\n", timestamp, philo->seat + 1, msg);
-    pthread_mutex_unlock(&g_thread()->mute);
+    pthread_mutex_unlock(&g_thread()->printing);
 }
 void printnaam(t_philos *philos)
 {
@@ -44,23 +44,29 @@ void printnaam(t_philos *philos)
 void printfker(t_philos *philos)
 {
     print_action(philos, "is thinking");
-    use_usleep(100);
 }
 
 void take_the_forks(t_philos *philos)
 {
+    // pthread_mutex_lock(&g_thread()->try);
 	int left = philos->seat;
 	int right = (philos->seat + 1) % g_thread()->numbers;
+    // pthread_mutex_unlock(&g_thread()->try);
     
 	if (left < right)
     {
+
         pthread_mutex_lock(&g_thread()->forks[left]);
+        print_action(philos, "take left fork");
         pthread_mutex_lock(&g_thread()->forks[right]);
+        print_action(philos, "take right fork");
     } 
     else
     {
         pthread_mutex_lock(&g_thread()->forks[right]);
+        print_action(philos, "take right fork");
         pthread_mutex_lock(&g_thread()->forks[left]);
+        print_action(philos, "take left fork");
     }
 }
 
@@ -78,27 +84,38 @@ void printkol(t_philos *philos)
     philos->last_eat = get_time_ms();
     pthread_mutex_unlock(&g_thread()->mute);
     print_action(philos, "is eating");
+    use_usleep(g_thread()->eating);
     int left = philos->seat;
     int right = (philos->seat + 1) % g_thread()->numbers;
-    use_usleep(g_thread()->eating);
-    pthread_mutex_unlock(&g_thread()->forks[left]);
     pthread_mutex_unlock(&g_thread()->forks[right]);
+    pthread_mutex_unlock(&g_thread()->forks[left]);
 }
 
 void *routine(void *arg)
 {
 	t_philos *philo = (t_philos *)arg;
-	if (philo->seat % 2 == 1)
-		usleep(800);
+    // if (philo->seat % 2 != 0)
+    //     usleep(100);
 	while (1)
 	{
-		printkol(philo);
-		printnaam(philo);
-		printfker(philo);
+        if(g_thread()->someone_dead == 0)
+        {
+            printkol(philo);
+            printnaam(philo);
+            printfker(philo);
+            // usleep(100);
+        }
 	}
 	return NULL;
 }
-
+long get_last_meal(int i)
+{
+    long last_meal;
+    pthread_mutex_lock(&g_thread()->mute);
+    last_meal = g_thread()->philos[i].last_eat;
+    pthread_mutex_unlock(&g_thread()->mute);
+    return(last_meal);
+}
 void *monitor(void *arg)
 {
     int i;
@@ -108,17 +125,19 @@ void *monitor(void *arg)
         i = 0;
         while (i < g_thread()->numbers)
         {
-            pthread_mutex_lock(&g_thread()->mute);
             long now = get_time_ms();
-            if (now - g_thread()->philos[i].last_eat > g_thread()->time_die)
+            if (now - get_last_meal(i) > g_thread()->time_die)
             {
-                printf("%ld %d died\n", now - g_thread()->start, i + 1);
-                exit(0);
+                printf("shihaja\n");
+                print_action(&g_thread()->philos[i],"died");
+                pthread_mutex_lock(&g_thread()->mute);
+                g_thread()->someone_dead = 1;
+                pthread_mutex_unlock(&g_thread()->mute);
+                return 0;
             }
-            pthread_mutex_unlock(&g_thread()->mute);
             i++;
         }
-        use_usleep(100);
+        use_usleep(1);
     }
     return NULL;
 }
@@ -166,6 +185,9 @@ int main(int ac, char **av)
         return 1;
 
     check_avs(av);
+    g_thread()->someone_dead = 0;
+    pthread_mutex_init(&g_thread()->mute, NULL);
+    pthread_mutex_init(&g_thread()->printing, NULL);
     g_thread()->philos = malloc(sizeof(t_philos) * g_thread()->numbers);
     g_thread()->original = g_thread()->philos;
     g_thread()->forks = malloc(sizeof(pthread_mutex_t) * g_thread()->numbers);
@@ -179,7 +201,7 @@ int main(int ac, char **av)
         g_thread()->philos[i].seat = i;
         g_thread()->philos[i].last_eat = get_time_ms();
         pthread_create(&g_thread()->philos[i].phi_id, NULL, &routine, &g_thread()->philos[i]);
-        usleep(100);
+        // usleep(100);
         i++;
     }
     pthread_create(&mon, NULL, &monitor, NULL);

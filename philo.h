@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:24 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/31 22:59:24 by aniki            ###   ########.fr       */
+/*   Updated: 2025/06/16 20:02:19 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,12 @@ typedef struct s_threads
     t_philos *original;
     t_philos *philos;
     long       start;
+    pthread_mutex_t printing;
     pthread_mutex_t mute;
+    pthread_mutex_t last_meal;
     pthread_mutex_t eating_mute;
+    pthread_mutex_t try;
+    int             someone_dead;
 }	           t_threads;
 
 t_threads	*g_thread(void);
