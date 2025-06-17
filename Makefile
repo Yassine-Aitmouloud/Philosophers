@@ -1,6 +1,6 @@
 NAME = philo
 
-CC = cc -g3 -fsanitize=thread
+CC = cc -g3 
 
 CFLAGS = #-Wall -Wextra -Werror
 
@@ -11,7 +11,7 @@ PHILO_OBJ = $(PHILO_SRC:.c=.o)
 all: $(NAME)
 
 $(NAME):	$(PHILO_OBJ)
-	$(CC)	$(CFLAGS)	$^ -o	$(NAME)
+	$(CC)	-fsanitize=thread $(CFLAGS)	$^ -o	$(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
