@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/17 21:09:37 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/17 22:03:42 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void    use_usleep(long duration)
 {
     long start = get_time_ms();
     while (get_time_ms() - start < duration)
-        usleep(100);
+        usleep(50);
 }
 int is_died()
 {
@@ -55,7 +55,7 @@ void printfker(t_philos *philos)
 {
     print_action(philos, "is thinking");
     if (philos->seat % 2 == 1)
-        use_usleep(1);
+        usleep(150);
 }
 
 void take_the_forks(t_philos *philos)
