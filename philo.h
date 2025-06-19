@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:24 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/17 15:47:50 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:18:59 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct s_philos
     pthread_t phi_id;
     int     seat;
     long       last_eat;
+    int     meals_eaten;
+    int     checked;
 }            t_philos;
 
 typedef struct s_threads
@@ -34,16 +36,18 @@ typedef struct s_threads
     int time_die;
     int eating;
     int sleeping;
+    int must_eat;
     int status;
     pthread_mutex_t *forks;
-    t_philos *original;
     t_philos *philos;
     long       start;
     pthread_mutex_t printing;
     pthread_mutex_t mute;
     pthread_mutex_t last_meal;
-    pthread_mutex_t eating_mute;
-    pthread_mutex_t try;
+    pthread_mutex_t eating_count;
+    pthread_mutex_t death;
+    int     philosophers_done;
+    
 }	           t_threads;
 
 t_threads	*g_thread(void);
