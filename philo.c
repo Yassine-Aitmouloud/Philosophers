@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/19 21:37:26 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:42:39 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	print_action(t_philos *philo, char *msg)
     pthread_mutex_lock(&g_thread()->printing);
     if (!is_died())
         printf("%ld %d %s\n", timestamp, philo->seat + 1, msg);
+    write(1,&philo->seat,4);
     pthread_mutex_unlock(&g_thread()->printing);
 }
 void printnaam(t_philos *philos)
