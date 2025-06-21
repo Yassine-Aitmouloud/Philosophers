@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:13:33 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/21 16:59:39 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:02:08 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	printnaam(t_philos *philos)
 	// if (is_died())
 	// 	return ;
 	print_action(philos, "is sleeping");
-	use_usleep(g_thread()->sleeping);
+	usleep(g_thread()->sleeping * 1000);
 }
 
 void	printfker(t_philos *philos)
@@ -41,7 +41,7 @@ void	printkol(t_philos *philos)
 	pthread_mutex_lock(&g_thread()->last_meal);
 	philos->last_eat = get_time_ms();
 	pthread_mutex_unlock(&g_thread()->last_meal);
-	usleep(g_thread()->eating);
+	usleep(g_thread()->eating * 1000);
 	philos->meals_eaten++;
 	if (philos->checked == 0 && philos->meals_eaten >= g_thread()->must_eat)
 	{
@@ -62,7 +62,7 @@ void	*routine(void *arg)
 	if (g_thread()->numbers == 1)
 	{
 		print_action(philo,"take the left fork1");
-		use_usleep(g_thread()->time_die);
+		usleep(g_thread()->time_die * 1000);
 		print_action(philo, "died1");
 		return NULL;
 	}

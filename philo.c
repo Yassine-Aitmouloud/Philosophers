@@ -6,13 +6,13 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/21 16:59:15 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:00:23 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	use_usleep(long duration)
+void	usleep(long duration)
 {
 	long	start;
 

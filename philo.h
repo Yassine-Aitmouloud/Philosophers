@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:24 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/21 15:58:54 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:00:23 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,5 @@ int					check_the_philos(void);
 void				unlock_forks(int right, int left);
 void				lock_forks(int right, int left, t_philos *philos);
 int					is_died(void);
-void				use_usleep(long duration);
+void				usleep(long duration);
 #endif
