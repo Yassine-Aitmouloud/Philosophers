@@ -6,19 +6,19 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/21 17:00:23 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/21 21:33:42 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	usleep(long duration)
+void	use_usleep(long duration)
 {
 	long	start;
 
 	start = get_time_ms();
 	while (get_time_ms() - start < duration)
-		usleep(50);
+		usleep(30);
 }
 
 int	is_died(void)
@@ -55,7 +55,6 @@ void	get_start(void)
 
 	i = 0;
 	g_thread()->someone_died = 0;
-	pthread_mutex_init(&g_thread()->mute, NULL);
 	pthread_mutex_init(&g_thread()->printing, NULL);
 	pthread_mutex_init(&g_thread()->eating_count, NULL);
 	pthread_mutex_init(&g_thread()->death, NULL);

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:16:38 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/21 16:10:17 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:50:11 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_for_death(int i)
 	long	now;
 
 	now = get_time_ms();
-	if (now - get_last_meal(i) > g_thread()->time_die && g_thread()->numbers != 1)
+	if (now - get_last_meal(i) > g_thread()->time_die)
 	{
 		print_action(&g_thread()->philos[i], "died");
 		pthread_mutex_lock(&g_thread()->death);

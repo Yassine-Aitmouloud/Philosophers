@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:12:11 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/21 16:24:48 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/21 21:51:03 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,7 @@ void	take_the_forks(t_philos *philos)
 	left = philos->seat;
 	right = (philos->seat + 1) % g_thread()->numbers;
     lock_forks(right, left, philos);
+	print_action(philos, "is eating");
+	use_usleep(g_thread()->eating);
+	unlock_forks(right, left);
 }
