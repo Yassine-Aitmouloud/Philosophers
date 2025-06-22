@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:13:33 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/22 10:20:55 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/22 11:21:56 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,6 @@ void	printkol(t_philos *philos)
 		return ;
 	take_the_forks(philos);
 	print_action(philos, "is eating");
-	pthread_mutex_lock(&g_thread()->last_meal);
-	philos->last_eat = get_time_ms();
-	pthread_mutex_unlock(&g_thread()->last_meal);
-	use_usleep(g_thread()->eating);
 	philos->meals_eaten++;
 	if (philos->checked == 0 && philos->meals_eaten >= g_thread()->must_eat)
 	{
@@ -45,6 +41,10 @@ void	printkol(t_philos *philos)
 		philos->checked = 1;
 		pthread_mutex_unlock(&g_thread()->eating_count);
 	}
+	pthread_mutex_lock(&g_thread()->last_meal);
+	philos->last_eat = get_time_ms();
+	pthread_mutex_unlock(&g_thread()->last_meal);
+	use_usleep(g_thread()->eating);
 	left = philos->seat;
 	right = (philos->seat + 1) % g_thread()->numbers;
 	unlock_forks(right, left);

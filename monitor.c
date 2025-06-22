@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:16:38 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/21 20:50:11 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:21:35 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,15 @@ void	*monitor(void *arg)
 		i = 0;
 		while (i < g_thread()->numbers)
 		{
+			if (g_thread()->must_eat > 0 && check_the_philos())
+			{
+				pthread_mutex_lock(&g_thread()->death);
+				g_thread()->someone_died = 1;
+				pthread_mutex_unlock(&g_thread()->death);
+				return (NULL);
+			}
 			if (check_for_death(i))
 				return (NULL);
-			if (g_thread()->must_eat > 0)
-			{
-				if (check_the_philos())
-				{
-					pthread_mutex_lock(&g_thread()->death);
-					g_thread()->someone_died = 1;
-					pthread_mutex_unlock(&g_thread()->death);
-					return (NULL);
-				}
-			}
 			i++;
 		}
 	}
