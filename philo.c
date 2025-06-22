@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/21 21:33:42 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/22 10:01:56 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	use_usleep(long duration)
 
 	start = get_time_ms();
 	while (get_time_ms() - start < duration)
-		usleep(30);
+		usleep(50);
 }
 
 int	is_died(void)

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:24 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/21 20:46:49 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/22 10:08:58 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ typedef struct s_threads
 	t_philos		*philos;
 	long			start;
 	pthread_mutex_t	printing;
-	pthread_mutex_t	mute;
 	pthread_mutex_t	last_meal;
 	pthread_mutex_t	eating_count;
 	pthread_mutex_t	death;
+	int				even_odd;
 	int				philosophers_done;
 
 }					t_threads;
