@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:16:38 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/22 21:09:23 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/23 20:52:59 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_for_death(int i)
 {
-	int j;
+	int	j;
 
 	j = g_thread()->time_die;
 	if (get_time_ms() - get_last_meal(i) > j)
@@ -23,9 +23,9 @@ int	check_for_death(int i)
 		pthread_mutex_lock(&g_thread()->death);
 		g_thread()->someone_died = 1;
 		pthread_mutex_unlock(&g_thread()->death);
-		return 1;
-    }
-    return 0;
+		return (1);
+	}
+	return (0);
 }
 
 void	*monitor(void *arg)
@@ -40,22 +40,21 @@ void	*monitor(void *arg)
 		{
 			if (check_for_death(i))
 				return (NULL);
-			// if (g_thread()->must_eat > 0)
-			// {
-			// 	if (check_the_philos())
-			// 	{
-			// 		pthread_mutex_lock(&g_thread()->death);
-			// 		g_thread()->someone_died = 1;
-			// 		pthread_mutex_unlock(&g_thread()->death);
-			// 		return (NULL);
-			// 	}
-			// }
+			if (g_thread()->must_eat > 0)
+			{
+				if (check_the_philos())
+				{
+					pthread_mutex_lock(&g_thread()->death);
+					g_thread()->someone_died = 1;
+					pthread_mutex_unlock(&g_thread()->death);
+					return (NULL);
+				}
+			}
 			i++;
 		}
 	}
 	return (NULL);
 }
-
 
 long	get_last_meal(int i)
 {
@@ -82,7 +81,7 @@ int	check_the_philos(void)
 	i = 0;
 	while (i < g_thread()->numbers)
 	{
-	if (!check_for_checked(i))
+		if (!check_for_checked(i))
 			return (0);
 		i++;
 	}

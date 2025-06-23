@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:24 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/22 18:50:36 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:23:26 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_threads
 	pthread_mutex_t	last_meal;
 	pthread_mutex_t	eating_count;
 	pthread_mutex_t	death;
+	pthread_mutex_t	table;
 	int				even_odd;
 	int				philosophers_done;
 
@@ -65,4 +66,5 @@ void				unlock_forks(int right, int left, t_philos *philos);
 void				lock_forks(int right, int left, t_philos *philos);
 int					is_died(void);
 void				use_usleep(long duration);
+void				clean_up(void);
 #endif

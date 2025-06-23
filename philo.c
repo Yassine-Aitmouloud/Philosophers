@@ -6,20 +6,11 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/22 21:51:05 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/23 20:59:04 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	use_usleep(long duration)
-{
-	long	start;
-
-	start = get_time_ms();
-	while (get_time_ms() - start < duration && !is_died())
-		usleep(500);
-}
 
 int	is_died(void)
 {
@@ -34,9 +25,10 @@ int	is_died(void)
 
 void	create_philos(void)
 {
-	pthread_t	mon = 0;
-	int	i;
+	pthread_t	mon;
+	int			i;
 
+	mon = 0;
 	i = 0;
 	while (i < g_thread()->numbers)
 	{
@@ -48,12 +40,13 @@ void	create_philos(void)
 	pthread_create(&mon, NULL, &monitor, NULL);
 	pthread_join(mon, NULL);
 }
-void	regle()
+
+void	regle(void)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(i < g_thread()->numbers)
+	while (i < g_thread()->numbers)
 	{
 		g_thread()->philos[i].checked = 0;
 		g_thread()->philos[i].seat = i;
@@ -62,21 +55,27 @@ void	regle()
 	}
 }
 
-void	get_start(void)
+int	get_start(void)
 {
 	int	i;
 
 	i = 0;
 	g_thread()->someone_died = 0;
+	g_thread()->philos = malloc(sizeof(t_philos) * g_thread()->numbers);
+	if (!g_thread()->philos)
+		return (1);
+	regle();
+	g_thread()->forks = malloc(sizeof(pthread_mutex_t) * g_thread()->numbers);
+	if (!g_thread()->forks)
+		return (1);
 	pthread_mutex_init(&g_thread()->printing, NULL);
 	pthread_mutex_init(&g_thread()->eating_count, NULL);
 	pthread_mutex_init(&g_thread()->death, NULL);
 	pthread_mutex_init(&g_thread()->last_meal, NULL);
-	g_thread()->philos = malloc(sizeof(t_philos) * g_thread()->numbers);
-	regle();
-	g_thread()->forks = malloc(sizeof(pthread_mutex_t) * g_thread()->numbers);
+	pthread_mutex_init(&g_thread()->table, NULL);
 	while (i < g_thread()->numbers)
 		pthread_mutex_init(&g_thread()->forks[i++], NULL);
+	return (0);
 }
 
 int	main(int ac, char **av)
@@ -88,14 +87,15 @@ int	main(int ac, char **av)
 		return (1);
 	check_avs(av);
 	g_thread()->start = get_time_ms();
-	get_start();
-	create_philos();
-	while (i < g_thread()->numbers)
+	if (get_start() == 0)
 	{
-		pthread_join(g_thread()->philos[i].phi_id, NULL);
-		i++;
+		create_philos();
+		while (i < g_thread()->numbers)
+		{
+			pthread_join(g_thread()->philos[i].phi_id, NULL);
+			i++;
+		}
 	}
-	free(g_thread()->philos);
-	free(g_thread()->forks);
+	clean_up();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:12:11 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/22 21:16:06 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/23 21:00:48 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void	lock_forks(int right, int left, t_philos *philos)
 	}
 	else
 	{
-		pthread_mutex_lock(&g_thread()->forks[left]);
 		pthread_mutex_lock(&g_thread()->forks[right]);
+		pthread_mutex_lock(&g_thread()->forks[left]);
 		print_action(philos, "take right fork");
 		print_action(philos, "take left fork");
 	}
 }
 
-void	unlock_forks(int right, int left,t_philos *philos)
+void	unlock_forks(int right, int left, t_philos *philos)
 {
 	if ((philos->seat + 1) % 2)
 	{
@@ -39,7 +39,7 @@ void	unlock_forks(int right, int left,t_philos *philos)
 	}
 	else
 	{
-        pthread_mutex_unlock(&g_thread()->forks[left]);
+		pthread_mutex_unlock(&g_thread()->forks[left]);
 		pthread_mutex_unlock(&g_thread()->forks[right]);
 	}
 }
@@ -51,5 +51,21 @@ void	take_the_forks(t_philos *philos)
 
 	left = philos->seat;
 	right = (philos->seat + 1) % g_thread()->numbers;
-    lock_forks(right, left, philos);
+	lock_forks(right, left, philos);
+}
+
+void	clean_up(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < g_thread()->numbers)
+		pthread_mutex_destroy(&g_thread()->forks[i++]);
+	pthread_mutex_destroy(&g_thread()->printing);
+	pthread_mutex_destroy(&g_thread()->eating_count);
+	pthread_mutex_destroy(&g_thread()->death);
+	pthread_mutex_destroy(&g_thread()->last_meal);
+	pthread_mutex_destroy(&g_thread()->table);
+	free(g_thread()->philos);
+	free(g_thread()->forks);
 }
