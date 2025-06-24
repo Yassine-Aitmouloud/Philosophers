@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:13:33 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/23 21:00:22 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:50:19 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	printnaam(t_philos *philos)
 void	printfker(t_philos *philos)
 {
 	print_action(philos, "is thinking");
-	if (g_thread()->even_odd && philos->seat % 2)
+	if (g_thread()->even_odd && philos->seat + 1 % 2)
 	{
 		if (!is_died() && g_thread()->eating > g_thread()->sleeping)
 			usleep(g_thread()->eating - g_thread()->sleeping);
@@ -37,6 +37,16 @@ void	printkol(t_philos *philos)
 	if (is_died())
 		return ;
 	take_the_forks(philos);
+	// long now = get_time_ms();
+	// pthread_mutex_lock(&g_thread()->last_meal);
+	// if (now - philos->last_eat >= g_thread()->time_die)
+	// {
+	// 	pthread_mutex_unlock(&g_thread()->last_meal);
+	// 	print_action(philos, "died");
+	// 	g_thread()->someone_died = 1;
+	// 	return;
+	// }
+	pthread_mutex_unlock(&g_thread()->last_meal);
 	print_action(philos, "is eating");
 	pthread_mutex_lock(&g_thread()->last_meal);
 	philos->last_eat = get_time_ms();

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:12:11 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/23 21:00:48 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:05:33 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	lock_forks(int right, int left, t_philos *philos)
 {
-	if ((philos->seat + 1) % 2)
+	if (philos->seat == g_thread()->numbers - 1)
 	{
-		pthread_mutex_lock(&g_thread()->forks[right]);
 		pthread_mutex_lock(&g_thread()->forks[left]);
+		pthread_mutex_lock(&g_thread()->forks[right]);
 		print_action(philos, "take left fork");
 		print_action(philos, "take right fork");
 	}
@@ -34,13 +34,13 @@ void	unlock_forks(int right, int left, t_philos *philos)
 {
 	if ((philos->seat + 1) % 2)
 	{
-		pthread_mutex_unlock(&g_thread()->forks[right]);
+		pthread_mutex_unlock(&g_thread()->forks[right]); 
 		pthread_mutex_unlock(&g_thread()->forks[left]);
 	}
 	else
 	{
-		pthread_mutex_unlock(&g_thread()->forks[left]);
 		pthread_mutex_unlock(&g_thread()->forks[right]);
+		pthread_mutex_unlock(&g_thread()->forks[left]);
 	}
 }
 
