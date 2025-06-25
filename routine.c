@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:13:33 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/25 18:17:08 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/25 21:26:07 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	printnaam(t_philos *philos)
 void	printfker(t_philos *philos)
 {
 	print_action(philos, "is thinking");
-	if (g_thread()->even_odd && philos->seat + 1 % 2)
+	if (g_thread()->odd && (philos->seat + 1) % 2)
 	{
-		if (!is_died() && g_thread()->eating > g_thread()->sleeping)
-			usleep(g_thread()->eating - g_thread()->sleeping);
-		usleep(1000);
+		if (!is_died() && g_thread()->eating  > g_thread()->sleeping)
+			usleep((g_thread()->eating - g_thread()->sleeping) * 1000);
+		usleep(500);
 	}
 }
 
@@ -37,10 +37,10 @@ void	printkol(t_philos *philos)
 	if (is_died())
 		return ;
 	take_the_forks(philos);
-	print_action(philos, "is eating");
 	pthread_mutex_lock(&g_thread()->last_meal);
 	philos->last_eat = get_time_ms();
 	pthread_mutex_unlock(&g_thread()->last_meal);
+	print_action(philos, "is eating");
 	philos->meals_eaten++;
 	if (philos->checked == 0 && philos->meals_eaten >= g_thread()->must_eat)
 	{
@@ -59,7 +59,7 @@ void	*routine(void *arg)
 	t_philos	*philo;
 
 	philo = (t_philos *)arg;
-	if (philo->seat % 2)
+	if ((philo->seat + 1) % 2)
 		usleep(1000);
 	while (!is_died())
 	{

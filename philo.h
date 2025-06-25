@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:24 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/23 17:23:26 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/25 21:23:35 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_threads
 	pthread_mutex_t	eating_count;
 	pthread_mutex_t	death;
 	pthread_mutex_t	table;
-	int				even_odd;
+	int				odd;
 	int				philosophers_done;
 
 }					t_threads;

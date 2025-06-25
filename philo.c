@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/23 20:59:04 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/25 20:59:46 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	get_start(void)
 
 	i = 0;
 	g_thread()->someone_died = 0;
+	g_thread()->status = 0;
 	g_thread()->philos = malloc(sizeof(t_philos) * g_thread()->numbers);
 	if (!g_thread()->philos)
 		return (1);

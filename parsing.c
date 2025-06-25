@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:19:35 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/24 15:53:28 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/25 21:23:35 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	check_avs(char **av)
 		}
 		i++;
 	}
-	g_thread()->even_odd = 0;
+	g_thread()->odd = 0;
 	g_thread()->numbers = ft_atoi(av[1]);
 	g_thread()->time_die = ft_atoi(av[2]);
 	g_thread()->eating = ft_atoi(av[3]);
@@ -82,7 +82,7 @@ void	check_avs(char **av)
 	else
 		g_thread()->must_eat = atoi(av[5]);
 	if (g_thread()->numbers % 2 == 1)
-		g_thread()->even_odd = 1;
+		g_thread()->odd = 1;
 }
 
 t_threads	*g_thread(void)
