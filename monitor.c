@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:16:38 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/24 11:46:40 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:55:55 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void *watcher(void *arg)
 	long last;
 	(void)arg;
 
-    while (!g_thread()->someone_died)
+    while (1)
     {
 		i = 0;
         while (i < g_thread()->numbers)
@@ -83,11 +83,8 @@ void	*monitor(void *arg)
 					return (NULL);
 				}
 			}
-			// if (check_for_death(i))
-			// 	return (NULL);
 			i++;
 		}
-
 	}
 	return (NULL);
 }
