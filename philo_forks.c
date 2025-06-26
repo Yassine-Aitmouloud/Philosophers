@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:12:11 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/25 21:07:46 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:16:00 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	unlock_forks(int right, int left, t_philos *philos)
 	if (philos->seat == g_thread()->numbers - 1)
 	{
 		pthread_mutex_unlock(&g_thread()->forks[left]);
-		pthread_mutex_unlock(&g_thread()->forks[right]); 
+		pthread_mutex_unlock(&g_thread()->forks[right]);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:51:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/25 20:59:46 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:38:36 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ int	is_died(void)
 void	create_philos(void)
 {
 	pthread_t	mon;
+	pthread_t	watch;
 	int			i;
 
 	mon = 0;
+	watch = 0;
 	i = 0;
 	while (i < g_thread()->numbers)
 	{
@@ -38,6 +40,8 @@ void	create_philos(void)
 		i++;
 	}
 	pthread_create(&mon, NULL, &monitor, NULL);
+	pthread_create(&watch, NULL, watcher, NULL);
+	pthread_join(watch, NULL);
 	pthread_join(mon, NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:19:35 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/25 21:23:35 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:42:32 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,32 @@ int	is_int(char *str)
 	}
 	return (0);
 }
-#include <limits.h>
 
 int	ft_atoi(const char *str)
 {
-    long	result;
-    int		sign;
-    int		i;
+	long	result;
+	int		sign;
+	int		i;
 
-    result = 0;
-    sign = 1;
-    i = 0;
-    while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-        i++;
-    if (str[i] == '-' || str[i] == '+')
-    {
-        if (str[i] == '-')
-            return 0;
-        i++;
-    }
-    while (str[i] >= '0' && str[i] <= '9')
-    {
-        result = result * 10 + (str[i] - '0');
-        if (result > INT_MAX) 
-            return (0);
-        i++;
-    }
-    return ((int)(result));
+	result = 0;
+	sign = 1;
+	i = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			return (0);
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10 + (str[i] - '0');
+		if (result > __INT_MAX__)
+			return (0);
+		i++;
+	}
+	return ((int)(result));
 }
 
 void	check_avs(char **av)
@@ -83,13 +82,6 @@ void	check_avs(char **av)
 		g_thread()->must_eat = atoi(av[5]);
 	if (g_thread()->numbers % 2 == 1)
 		g_thread()->odd = 1;
-}
-
-t_threads	*g_thread(void)
-{
-	static t_threads	infos;
-
-	return (&infos);
 }
 
 long	get_time_ms(void)

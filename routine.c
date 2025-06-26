@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:13:33 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/06/25 21:26:07 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:42:52 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	printfker(t_philos *philos)
 	print_action(philos, "is thinking");
 	if (g_thread()->odd && (philos->seat + 1) % 2)
 	{
-		if (!is_died() && g_thread()->eating  > g_thread()->sleeping)
+		if (!is_died() && g_thread()->eating > g_thread()->sleeping)
 			usleep((g_thread()->eating - g_thread()->sleeping) * 1000);
 		usleep(500);
 	}
@@ -59,6 +59,10 @@ void	*routine(void *arg)
 	t_philos	*philo;
 
 	philo = (t_philos *)arg;
+	if (g_thread()->numbers == 1)
+	{
+		one_philo();
+	}
 	if ((philo->seat + 1) % 2)
 		usleep(1000);
 	while (!is_died())
